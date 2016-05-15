@@ -1,4 +1,5 @@
 module spring;
+import io;
 
 import core.stdc.stdlib;
 import std.exception;
@@ -29,8 +30,8 @@ ALLEGRO_FONT * textFont;
 
 auto toAllegroUstr (const char [] s)
 {
-	auto alUstrInfo = new ALLEGRO_USTR_INFO;
-	return al_ref_buffer (alUstrInfo, s.ptr, s.length);
+	auto tempUstrInfo = new ALLEGRO_USTR_INFO;
+	return al_ref_buffer (tempUstrInfo, s.ptr, s.length);
 }
 
 void init ()
@@ -66,7 +67,8 @@ void draw ()
 {
 	al_clear_to_color (al_map_rgb_f (0.5, 0.4, 0.3));
 	al_draw_ustr (textFont, al_map_rgb_f (1.0, 1.0, 0.1),
-	    MAX_X / 2, MAX_Y / 2, 0, "abcабв".toAllegroUstr);
+	    MAX_X / 2, MAX_Y / 2, ALLEGRO_ALIGN_LEFT,
+	    "abcабв".toAllegroUstr);
 	writeln ("?");
 	al_flip_display ();
 }
