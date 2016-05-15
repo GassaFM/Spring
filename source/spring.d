@@ -1,5 +1,4 @@
 module spring;
-import spring;
 
 import core.stdc.stdlib;
 import std.exception;
@@ -26,6 +25,13 @@ immutable real FPS = 60.0;
 ALLEGRO_DISPLAY * display;
 ALLEGRO_EVENT_QUEUE * eventQueue;
 ALLEGRO_TIMER * drawTimer;
+ALLEGRO_FONT * textFont;
+
+auto toAllegroUstr (const char [] s)
+{
+	auto alUstrInfo = new ALLEGRO_USTR_INFO;
+	return al_ref_buffer (alUstrInfo, s.ptr, s.length);
+}
 
 void init ()
 {
@@ -41,7 +47,11 @@ void init ()
 	enforce (display);
 
 	drawTimer = al_create_timer (1.0 / FPS);
+	enforce (drawTimer);
 	al_start_timer (drawTimer);
+
+	textFont = al_load_ttf_font ("data/EBGaramond.otf", 24, 0);
+	enforce (textFont);
 
 	eventQueue = al_create_event_queue ();
 	enforce (eventQueue);
@@ -55,6 +65,8 @@ void init ()
 void draw ()
 {
 	al_clear_to_color (al_map_rgb_f (0.5, 0.4, 0.3));
+	al_draw_ustr (textFont, al_map_rgb_f (1.0, 1.0, 0.1),
+	    MAX_X / 2, MAX_Y / 2, 0, "abcабв".toAllegroUstr);
 	writeln ("?");
 	al_flip_display ();
 }
@@ -92,9 +104,10 @@ void mainLoop ()
 
 void happyEnd ()
 {
-	al_destroy_display (display);
-	al_destroy_timer (drawTimer);
 	al_destroy_event_queue (eventQueue);
+	al_destroy_font (textFont);
+	al_destroy_timer (drawTimer);
+	al_destroy_display (display);
 
 	al_shutdown_font_addon ();
 	al_shutdown_image_addon ();
