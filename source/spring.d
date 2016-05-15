@@ -1,4 +1,5 @@
-module main;
+module spring;
+import spring;
 
 import core.stdc.stdlib;
 import std.exception;
@@ -20,6 +21,7 @@ import allegro5.allegro_ttf;
 
 immutable int MAX_X = 800;
 immutable int MAX_Y = 600;
+immutable real FPS = 60.0;
 
 ALLEGRO_DISPLAY * display;
 ALLEGRO_EVENT_QUEUE * eventQueue;
@@ -38,7 +40,8 @@ void init ()
 	display = al_create_display (MAX_X, MAX_Y);
 	enforce (display);
 
-	drawTimer = al_create_timer (1.0 / 2.0);
+	drawTimer = al_create_timer (1.0 / FPS);
+	al_start_timer (drawTimer);
 
 	eventQueue = al_create_event_queue ();
 	enforce (eventQueue);
