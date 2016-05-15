@@ -2,6 +2,7 @@ module zone;
 import io;
 
 import allegro5.allegro;
+import allegro5.allegro_primitives;
 
 class Zone : Io
 {
@@ -16,6 +17,6 @@ class Zone : Io
 
 	override void drawThisPre ()
 	{
-		al_clear_to_color (fillColor);
+		al_draw_filled_rectangle (0, 0, w, h, fillColor);
 	}
 }
