@@ -12,24 +12,36 @@ class Io
 	int w;
 	int h;
 
-	final void draw (ALLEGRO_BITMAP * buffer)
+	this (Io parent_, int relX_, int relY_, int w_, int h_)
 	{
-		ALLEGRO_BITMAP * curBuffer =
-		    al_create_sub_bitmap (buffer, relX, relY, w, h);
-		drawThisPre (curBuffer);
+		parent = parent_;
+		relX = relX_;
+		relY = relY_;
+		w = w_;
+		h = h_;
+	}
+
+	final void draw ()
+	{
+		ALLEGRO_BITMAP * prevBuffer = al_get_target_bitmap ();
+		ALLEGRO_BITMAP * curBuffer = al_create_sub_bitmap
+		    (prevBuffer, relX, relY, w, h);
+		al_set_target_bitmap (curBuffer);
+		drawThisPre ();
 		foreach (c; child)
 		{
-			c.draw (curBuffer);
+			c.draw ();
 		}
-		drawThisPost (curBuffer);
+		drawThisPost ();
+		al_set_target_bitmap (prevBuffer);
 		al_destroy_bitmap (curBuffer);
 	}
 
-	void drawThisPre (ALLEGRO_BITMAP * buffer)
+	void drawThisPre ()
 	{
 	}
 
-	void drawThisPost (ALLEGRO_BITMAP * buffer)
+	void drawThisPost ()
 	{
 	}
 

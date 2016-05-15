@@ -1,5 +1,8 @@
 module spring;
+import button;
 import io;
+import puzzle;
+import zone;
 
 import core.stdc.stdlib;
 import std.exception;
@@ -63,18 +66,28 @@ void init ()
 	al_register_event_source (eventQueue, al_get_display_event_source (display));
 }
 
+Io ioRoot;
+
 void draw ()
 {
-	al_clear_to_color (al_map_rgb_f (0.5, 0.4, 0.3));
-	al_draw_ustr (textFont, al_map_rgb_f (1.0, 1.0, 0.1),
-	    MAX_X / 2, MAX_Y / 2, ALLEGRO_ALIGN_LEFT,
-	    "abcабв".toAllegroUstr);
-	writeln ("?");
+	al_clear_to_color (al_map_rgb_f (0.0, 0.0, 0.0));
+	enforce (ioRoot !is null);
+	ioRoot.draw ();
 	al_flip_display ();
+}
+
+auto prepareMenu ()
+{
+	auto menu = new Zone (null, 100, 100, MAX_X - 200, MAX_Y - 200,
+	    al_map_rgb_f (0.2, 0.3, 0.1));
+	return menu;
 }
 
 void mainLoop ()
 {
+	auto menu = prepareMenu ();
+//	auto puzzle = new Puzzle ();
+	ioRoot = menu;
 	draw ();
 
 	bool isFinished = false;
