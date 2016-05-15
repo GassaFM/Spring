@@ -15,6 +15,10 @@ class Io
 	this (Io parent_, int relX_, int relY_, int w_, int h_)
 	{
 		parent = parent_;
+		if (parent !is null)
+		{
+			parent.child ~= this;
+		}
 		relX = relX_;
 		relY = relY_;
 		w = w_;

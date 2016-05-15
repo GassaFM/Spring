@@ -2,6 +2,7 @@ module spring;
 import button;
 import io;
 import puzzle;
+import text_zone;
 import zone;
 
 import core.stdc.stdlib;
@@ -30,6 +31,8 @@ ALLEGRO_DISPLAY * display;
 ALLEGRO_EVENT_QUEUE * eventQueue;
 ALLEGRO_TIMER * drawTimer;
 ALLEGRO_FONT * textFont;
+ALLEGRO_FONT * buttonFont;
+ALLEGRO_FONT * captionFont;
 
 auto toAllegroUstr (const char [] s)
 {
@@ -57,6 +60,12 @@ void init ()
 	textFont = al_load_ttf_font ("data/EBGaramond.otf", 24, 0);
 	enforce (textFont);
 
+	buttonFont = al_load_ttf_font ("data/EBGaramond.otf", 30, 0);
+	enforce (buttonFont);
+
+	captionFont = al_load_ttf_font ("data/EBGaramond.otf", 48, 0);
+	enforce (captionFont);
+
 	eventQueue = al_create_event_queue ();
 	enforce (eventQueue);
 
@@ -76,10 +85,32 @@ void draw ()
 	al_flip_display ();
 }
 
+bool isFinished = false;
+
 auto prepareMenu ()
 {
-	auto menu = new Zone (null, 100, 100, MAX_X - 200, MAX_Y - 200,
+	auto menu = new Zone (null, 0, 0, MAX_X, MAX_Y,
 	    al_map_rgb_f (0.2, 0.3, 0.1));
+	auto buttonColor = al_map_rgb_f (0.1, 0.3, 0.5);
+	auto caption = new TextZone (menu,
+	    (MAX_X - 200) / 2, 110, 200, 50,
+	    al_map_rgba_f (0.0, 0.0, 0.0, 0.0), al_map_rgb_f (0.4, 0.9, 0.1),
+	    captionFont, "SPRING".toAllegroUstr ());
+	auto ruButton = new Button (menu,
+	    MAX_X * 1 / 4 - 120 / 2, 250, 120, 40,
+	    buttonColor, al_map_rgb_f (0.9, 0.9, 0.5),
+	    buttonFont, "Русский".toAllegroUstr (),
+	    (int posX, int posY) {});
+	auto enButton = new Button (menu,
+	    MAX_X * 3 / 4 - 120 / 2, 250, 120, 40,
+	    buttonColor, al_map_rgb_f (0.9, 0.9, 0.5),
+	    buttonFont, "English".toAllegroUstr (),
+	    (int posX, int posY) {});
+	auto exitButton = new Button (menu,
+	    (MAX_X - 120) / 2, 325, 120, 40,
+	    buttonColor, al_map_rgb_f (0.9, 0.5, 0.5),
+	    buttonFont, "Exit".toAllegroUstr (),
+	    (int posX, int posY) {isFinished = true;});
 	return menu;
 }
 
@@ -90,7 +121,7 @@ void mainLoop ()
 	ioRoot = menu;
 	draw ();
 
-	bool isFinished = false;
+	isFinished = false;
 	while (!isFinished)
 	{
 		ALLEGRO_EVENT currentEvent;
@@ -102,9 +133,22 @@ void mainLoop ()
 				isFinished = true;
 				break;
 
+			case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+				if (currentEvent.mouse.button == 1)
+				{
+					auto x = currentEvent.mouse.x;
+					auto y = currentEvent.mouse.y;
+					ioRoot.click (x, y);
+				}
+				break;
+
 			case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-				auto x = currentEvent.mouse.x;
-				auto y = currentEvent.mouse.y;
+				if (currentEvent.mouse.button == 1)
+				{
+					auto x = currentEvent.mouse.x;
+					auto y = currentEvent.mouse.y;
+					ioRoot.unclick (x, y);
+				}
 				break;
 
 			case ALLEGRO_EVENT_TIMER:
@@ -120,6 +164,8 @@ void mainLoop ()
 void happyEnd ()
 {
 	al_destroy_event_queue (eventQueue);
+	al_destroy_font (captionFont);
+	al_destroy_font (buttonFont);
 	al_destroy_font (textFont);
 	al_destroy_timer (drawTimer);
 	al_destroy_display (display);
