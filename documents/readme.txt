@@ -2,6 +2,11 @@ Developers:
 Gassa (Ivan Kazmenko)
 naagi (Natalya Ginzburg)
 
+Dependencies:
+Allegro 5.1+
+dmd 2.070+
+DAllegro5 by SiegeLord
+
 Game:
 You fight winter by crafting a spring poem by a known author.
 
