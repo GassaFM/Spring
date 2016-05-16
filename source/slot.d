@@ -15,6 +15,7 @@ class Slot : Board
 	ALLEGRO_COLOR matchColor;
 	string matchText;
 	int wPrev;
+	bool hasMatch;
 
 	this (Io parent_, int relX_, int relY_, int w_, int h_, int radius_,
 	    ALLEGRO_COLOR fillColor_, ALLEGRO_COLOR matchColor_,
@@ -23,6 +24,7 @@ class Slot : Board
 		super (parent_, relX_, relY_, w_, h_, radius_, fillColor_);
 		matchColor = matchColor_;
 		matchText = matchText_;
+		hasMatch = false;
 	}
 
 	void recalcWidth ()
@@ -53,6 +55,9 @@ class Slot : Board
 			recalcWidth ();
 			child ~= cursorRoot;
 			cursorRoot.parent = this;
+			auto cur = cast (Draggable) child.front;
+			hasMatch = (cur !is null &&
+			    matchText == cursorRoot.matchText);
 			cursorRoot = null;
 			return true;
 		}
@@ -61,20 +66,10 @@ class Slot : Board
 
 	override void drawThisPost ()
 	{
-		if (child.empty)
+		if (hasMatch)
 		{
-			return;
+			al_draw_filled_rounded_rectangle (0, 0, w, h,
+			    radius, radius, matchColor);
 		}
-		auto cur = cast (Draggable) child.front;
-		if (cur is null)
-		{
-			return;
-		}
-		if (cur.matchText != matchText)
-		{
-			return;
-		}
-		al_draw_filled_rounded_rectangle (0, 0, w, h,
-		    radius, radius, matchColor);
 	}
 }
