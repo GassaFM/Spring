@@ -217,18 +217,22 @@ auto prepareMenu ()
 	    (MAX_X - 200) / 2, 110, 200, 50, 0,
 	    al_map_rgba_f (0.0, 0.0, 0.0, 0.0), al_map_rgb_f (0.4, 0.9, 0.1),
 	    captionFont, "SPRING".toAllegroUstr ());
+	auto someText = new TextZone (menu,
+	    (MAX_X - 400) / 2, 190, 400, 50, 0,
+	    al_map_rgba_f (0.0, 0.0, 0.0, 0.0), al_map_rgb_f (0.5, 0.8, 0.8),
+	    textFont, "Fight snow with verse!".toAllegroUstr ());
 	auto ruButton = new Button (menu,
-	    MAX_X * 1 / 4 - 140 / 2, 250, 140, 40, 5,
+	    MAX_X * 1 / 4 - 140 / 2, 300, 140, 40, 5,
 	    buttonColor, al_map_rgb_f (0.9, 0.9, 0.5),
 	    buttonFont, "Тютчев".toAllegroUstr (),
 	    (int posX, int posY) {ioRoot = solve (puzzleRu);});
 	auto enButton = new Button (menu,
-	    MAX_X * 3 / 4 - 140 / 2, 250, 140, 40, 5,
+	    MAX_X * 3 / 4 - 140 / 2, 300, 140, 40, 5,
 	    buttonColor, al_map_rgb_f (0.9, 0.9, 0.5),
 	    buttonFont, "Dickinson".toAllegroUstr (),
 	    (int posX, int posY) {ioRoot = solve (puzzleEn);});
 	auto exitButton = new Button (menu,
-	    (MAX_X - 140) / 2, 325, 140, 40, 5,
+	    (MAX_X - 140) / 2, 375, 140, 40, 5,
 	    buttonColor, al_map_rgb_f (0.9, 0.5, 0.5),
 	    buttonFont, "Exit".toAllegroUstr (),
 	    (int posX, int posY) {isFinished = true;});
