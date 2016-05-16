@@ -96,7 +96,7 @@ void draw ()
 		ALLEGRO_BITMAP * prevBuffer = al_get_target_bitmap ();
 		ALLEGRO_BITMAP * curBuffer = al_create_sub_bitmap
 		    (prevBuffer, mouse.x - cursorRoot.w / 2,
-		    mouse.y - cursorRoot.h / 2, w, h);
+		    mouse.y - cursorRoot.h / 2, cursorRoot.w, cursorRoot.h);
 		al_set_target_bitmap (curBuffer);
 		cursorRoot.draw ();
 		al_set_target_bitmap (prevBuffer);
@@ -208,11 +208,11 @@ void mainLoop ()
 	puzzleEn = prepareText ("data/dickinson.txt");
 	menu = prepareMenu ();
 	ioRoot = menu;
-	cursorRoot = new Button (solveForm,
+	cursorRoot = new Button (null,
 	    0, 0, 140, 40, 5,
-	    buttonColor, al_map_rgb_f (0.5, 0.9, 0.5),
+	    al_map_rgb_f (0.1, 0.1, 0.5), al_map_rgb_f (0.5, 0.9, 0.5),
 	    buttonFont, "Next".toAllegroUstr (),
-	    (int posX, int posY) {ioRoot = solve (puzzle[1..$]);});
+	    (int posX, int posY) {});
 	draw ();
 
 	isFinished = false;
