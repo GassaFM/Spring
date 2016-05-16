@@ -20,13 +20,11 @@ import std.string;
 pragma (lib, "dallegro5");
 pragma (lib, "allegro");
 pragma (lib, "allegro_font");
-pragma (lib, "allegro_image");
 pragma (lib, "allegro_primitives");
 pragma (lib, "allegro_ttf");
 
 import allegro5.allegro;
 import allegro5.allegro_font;
-import allegro5.allegro_image;
 import allegro5.allegro_primitives;
 import allegro5.allegro_ttf;
 
