@@ -1,6 +1,9 @@
 module spring;
+import board;
 import button;
+import draggable;
 import io;
+import piece;
 import puzzle;
 import text_zone;
 import zone;
@@ -136,7 +139,7 @@ auto solve (Puzzle [] puzzle)
 	{
 		return menu;
 	}
-	auto solveForm = new Zone (null, 0, 0, MAX_X, MAX_Y, 0,
+	auto solveForm = new Board (null, 0, 0, MAX_X, MAX_Y, 0,
 	    al_map_rgb_f (0.1, 0.5, 0.1));
 	auto buttonColor = al_map_rgb_f (0.1, 0.3, 0.5);
 	auto nextButton = new Button (solveForm,
@@ -208,11 +211,7 @@ void mainLoop ()
 	puzzleEn = prepareText ("data/dickinson.txt");
 	menu = prepareMenu ();
 	ioRoot = menu;
-	cursorRoot = new Button (null,
-	    0, 0, 140, 40, 5,
-	    al_map_rgb_f (0.1, 0.1, 0.5), al_map_rgb_f (0.5, 0.9, 0.5),
-	    buttonFont, "Next".toAllegroUstr (),
-	    (int posX, int posY) {});
+	cursorRoot = null;
 	draw ();
 
 	isFinished = false;

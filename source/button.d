@@ -1,5 +1,6 @@
 module button;
 import io;
+import spring;
 import text_zone;
 
 import allegro5.allegro;
@@ -26,6 +27,10 @@ class Button : TextZone
 
 	override bool unclickThis (int posX, int posY)
 	{
+		if (cursorRoot !is null)
+		{
+			return false;
+		}
 		onUnclick (posX, posY);
 		return true;
 	}
