@@ -99,12 +99,12 @@ auto prepareMenu ()
 	auto ruButton = new Button (menu,
 	    MAX_X * 1 / 4 - 120 / 2, 250, 120, 40,
 	    buttonColor, al_map_rgb_f (0.9, 0.9, 0.5),
-	    buttonFont, "Русский".toAllegroUstr (),
+	    buttonFont, "Тютчев".toAllegroUstr (),
 	    (int posX, int posY) {});
 	auto enButton = new Button (menu,
 	    MAX_X * 3 / 4 - 120 / 2, 250, 120, 40,
-	    buttonColor, al_map_rgb_f (0.9, 0.9, 0.5),
-	    buttonFont, "English".toAllegroUstr (),
+	    buttonColor, al_map_rgb_f (0.7, 0.7, 0.7),
+	    buttonFont, "---".toAllegroUstr (),
 	    (int posX, int posY) {});
 	auto exitButton = new Button (menu,
 	    (MAX_X - 120) / 2, 325, 120, 40,
