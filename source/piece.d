@@ -12,13 +12,11 @@ import allegro5.allegro_font;
 class Piece
 {
 	string contents;
-	int wTrue;
 	int w;
 
 	this (string contents_)
 	{
 		contents = contents_;
-		wTrue = al_get_ustr_width
-		    (textFont, contents.toAllegroUstr ());
+		w = al_get_ustr_width (textFont, contents.toAllegroUstr ());
 	}
 }

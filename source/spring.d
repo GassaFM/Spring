@@ -7,6 +7,7 @@ import zone;
 
 import core.stdc.stdlib;
 import std.exception;
+import std.random;
 import std.range;
 import std.stdio;
 import std.string;
@@ -121,16 +122,16 @@ auto solve (Puzzle [] puzzle)
 	{
 		return menu;
 	}
-	auto solveForm = new Zone (null, 0, 0, MAX_X, MAX_Y,
-	    al_map_rgb_f (0.1, 0.1, 0.4));
+	auto solveForm = new Zone (null, 0, 0, MAX_X, MAX_Y, 0,
+	    al_map_rgb_f (0.1, 0.5, 0.1));
 	auto buttonColor = al_map_rgb_f (0.1, 0.3, 0.5);
 	auto nextButton = new Button (solveForm,
-	    (MAX_X - 140) / 2, 465, 140, 40,
+	    MAX_X * 1 / 3 - 140 / 2, 535, 140, 40, 5,
 	    buttonColor, al_map_rgb_f (0.5, 0.9, 0.5),
 	    buttonFont, "Next".toAllegroUstr (),
 	    (int posX, int posY) {ioRoot = solve (puzzle[1..$]);});
 	auto exitButton = new Button (solveForm,
-	    (MAX_X - 140) / 2, 525, 140, 40,
+	    MAX_X * 2 / 3 - 140 / 2, 535, 140, 40, 5,
 	    buttonColor, al_map_rgb_f (0.9, 0.5, 0.5),
 	    buttonFont, "Exit".toAllegroUstr (),
 	    (int posX, int posY) {ioRoot = menu;});
@@ -143,12 +144,17 @@ auto solve (Puzzle [] puzzle)
 		foreach (piece; line)
 		{
 			auto w = piece.w;
-			auto puzzleLine = new TextZone (solveForm, curX, curY,
-			    w + 10, 40,
-			    al_map_rgb_f (0.6, 0.6, 0.2),
-			    al_map_rgb_f (0.9, 0.9, 0.8),
+			int randomX = uniform (100, 601);
+			int randomY = uniform (300, 451);
+			auto puzzleSlot = new Zone (solveForm,
+			    curX, curY, 60, 40, 5,
+			    al_map_rgb_f (0.6, 0.6, 0.4));
+			auto puzzlePart = new TextZone (solveForm,
+			    randomX, randomY, w + 10, 40, 5,
+			    al_map_rgb_f (0.7, 0.7, 0.5),
+			    al_map_rgb_f (0.0, 0.0, 0.2),
 			    textFont, piece.contents.toAllegroUstr ());
-			curX += w + 20;
+			curX += 60 + 10;
 		}
 		curY += 50;
 	}
@@ -157,25 +163,25 @@ auto solve (Puzzle [] puzzle)
 
 auto prepareMenu ()
 {
-	auto menu = new Zone (null, 0, 0, MAX_X, MAX_Y,
+	auto menu = new Zone (null, 0, 0, MAX_X, MAX_Y, 0,
 	    al_map_rgb_f (0.2, 0.3, 0.1));
 	auto buttonColor = al_map_rgb_f (0.1, 0.3, 0.5);
 	auto caption = new TextZone (menu,
-	    (MAX_X - 200) / 2, 110, 200, 50,
+	    (MAX_X - 200) / 2, 110, 200, 50, 0,
 	    al_map_rgba_f (0.0, 0.0, 0.0, 0.0), al_map_rgb_f (0.4, 0.9, 0.1),
 	    captionFont, "SPRING".toAllegroUstr ());
 	auto ruButton = new Button (menu,
-	    MAX_X * 1 / 4 - 140 / 2, 250, 140, 40,
+	    MAX_X * 1 / 4 - 140 / 2, 250, 140, 40, 5,
 	    buttonColor, al_map_rgb_f (0.9, 0.9, 0.5),
 	    buttonFont, "Тютчев".toAllegroUstr (),
 	    (int posX, int posY) {ioRoot = solve (puzzleRu);});
 	auto enButton = new Button (menu,
-	    MAX_X * 3 / 4 - 140 / 2, 250, 140, 40,
+	    MAX_X * 3 / 4 - 140 / 2, 250, 140, 40, 5,
 	    buttonColor, al_map_rgb_f (0.9, 0.9, 0.5),
 	    buttonFont, "Dickinson".toAllegroUstr (),
 	    (int posX, int posY) {ioRoot = solve (puzzleEn);});
 	auto exitButton = new Button (menu,
-	    (MAX_X - 140) / 2, 325, 140, 40,
+	    (MAX_X - 140) / 2, 325, 140, 40, 5,
 	    buttonColor, al_map_rgb_f (0.9, 0.5, 0.5),
 	    buttonFont, "Exit".toAllegroUstr (),
 	    (int posX, int posY) {isFinished = true;});

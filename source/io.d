@@ -57,7 +57,7 @@ class Io
 		{
 			return false;
 		}
-		foreach (c; child)
+		foreach_reverse (c; child)
 		{
 			if (c.coordPostOrder !(fun) (posX, posY))
 			{
