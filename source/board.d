@@ -20,6 +20,7 @@ class Board : Zone
 			cursorRoot.relX = posX - cursorRoot.w / 2;
 			cursorRoot.relY = posY - cursorRoot.h / 2;
 			child ~= cursorRoot;
+			cursorRoot.parent = this;
 			cursorRoot = null;
 			return true;
 		}
