@@ -5,6 +5,7 @@ import draggable;
 import io;
 import piece;
 import puzzle;
+import slot;
 import text_zone;
 import zone;
 
@@ -163,14 +164,16 @@ auto solve (Puzzle [] puzzle)
 			auto w = piece.w;
 			int randomX = uniform (100, 601);
 			int randomY = uniform (300, 451);
-			auto puzzleSlot = new Zone (solveForm,
-			    curX, curY, 60, 40, 5,
-			    al_map_rgb_f (0.6, 0.6, 0.4));
-			auto puzzlePart = new TextZone (solveForm,
-			    randomX, randomY, w + 10, 40, 5,
+			auto puzzleSlot = new Slot (solveForm,
+			    curX, curY, 60, 42, 5,
+			    al_map_rgb_f (0.6, 0.6, 0.4),
+			    al_map_rgba_f (0.0, 0.0, 0.1, 0.1),
+			    piece.contents);
+			auto puzzlePart = new Draggable (solveForm,
+			    randomX, randomY, w + 10, 38, 5,
 			    al_map_rgb_f (0.7, 0.7, 0.5),
 			    al_map_rgb_f (0.0, 0.0, 0.2),
-			    textFont, piece.contents.toAllegroUstr ());
+			    textFont, piece.contents);
 			curX += 60 + 10;
 		}
 		curY += 50;
