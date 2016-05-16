@@ -145,8 +145,8 @@ auto solve (Puzzle [] puzzle)
 			auto w = piece.w;
 			auto puzzleLine = new TextZone (solveForm, curX, curY,
 			    w + 10, 40,
-			    al_map_rgb_f (0.2, 0.3, 0.2),
-			    al_map_rgb_f (0.8, 0.9, 0.8),
+			    al_map_rgb_f (0.6, 0.6, 0.2),
+			    al_map_rgb_f (0.9, 0.9, 0.8),
 			    textFont, piece.contents.toAllegroUstr ());
 			curX += w + 20;
 		}
