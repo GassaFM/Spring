@@ -10,6 +10,7 @@ import text_zone;
 import zone;
 
 import core.stdc.stdlib;
+import std.algorithm;
 import std.exception;
 import std.random;
 import std.range;
@@ -84,6 +85,7 @@ void init ()
 Io ioRoot;
 Io cursorRoot;
 Io menu;
+Io nextButton;
 
 Puzzle [] puzzleRu;
 Puzzle [] puzzleEn;
@@ -134,6 +136,31 @@ auto prepareText (string fileName)
 	return puzzle;
 }
 
+void recalcNextButton ()
+{
+	auto nextButtonOn = ioRoot.child.filter
+	    !(x => cast (Slot) x !is null).all
+	    !(x => (cast (Slot) x).hasMatch);
+	if (nextButtonOn)
+	{
+		if (nextButton.parent is null)
+		{
+			nextButton.parent = ioRoot;
+			ioRoot.child ~= nextButton;
+		}
+	}
+	else
+	{
+		if (nextButton.parent !is null)
+		{
+			nextButton.parent.child =
+			    nextButton.parent.child.filter
+			    !(x => x !is nextButton).array;
+			nextButton.parent = null;
+		}
+	}
+}
+
 auto solve (Puzzle [] puzzle)
 {
 	if (puzzle.empty)
@@ -143,7 +170,7 @@ auto solve (Puzzle [] puzzle)
 	auto solveForm = new Board (null, 0, 0, MAX_X, MAX_Y, 0,
 	    al_map_rgb_f (0.1, 0.5, 0.1));
 	auto buttonColor = al_map_rgb_f (0.1, 0.3, 0.5);
-	auto nextButton = new Button (solveForm,
+	nextButton = new Button (null,
 	    MAX_X * 1 / 3 - 140 / 2, 535, 140, 40, 5,
 	    buttonColor, al_map_rgb_f (0.5, 0.9, 0.5),
 	    buttonFont, "Next".toAllegroUstr (),

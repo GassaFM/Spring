@@ -57,7 +57,8 @@ class Slot : Board
 			cursorRoot.parent = this;
 			auto cur = cast (Draggable) child.front;
 			hasMatch = (cur !is null &&
-			    matchText == cursorRoot.matchText);
+			    matchText == cur.matchText);
+			recalcNextButton ();
 			cursorRoot = null;
 			return true;
 		}

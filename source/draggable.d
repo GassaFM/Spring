@@ -40,6 +40,7 @@ class Draggable : TextZone
 			swap (cur.w, cur.wPrev);
 			cur.recalcWidth ();
 			cur.hasMatch = false;
+			recalcNextButton ();
 		}
 		this.parent = null;
 		return true;
