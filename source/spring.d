@@ -172,8 +172,8 @@ auto solve (Puzzle [] puzzle)
 	auto buttonColor = al_map_rgb_f (0.1, 0.3, 0.5);
 	nextButton = new Button (null,
 	    MAX_X * 1 / 3 - 140 / 2, 535, 140, 40, 5,
-	    buttonColor, al_map_rgb_f (0.5, 0.9, 0.5),
-	    buttonFont, "Next".toAllegroUstr (),
+	    buttonColor, al_map_rgb_f (0.5, 0.9, 0.5), buttonFont,
+	    (puzzle.length > 1 ? "Next" : "Finish").toAllegroUstr (),
 	    (int posX, int posY) {ioRoot = solve (puzzle[1..$]);});
 	auto exitButton = new Button (solveForm,
 	    MAX_X * 2 / 3 - 140 / 2, 535, 140, 40, 5,
