@@ -78,6 +78,7 @@ void init ()
 }
 
 Io ioRoot;
+Io cursorRoot;
 Io menu;
 
 Puzzle [] puzzleRu;
@@ -88,6 +89,19 @@ void draw ()
 	al_clear_to_color (al_map_rgb_f (0.0, 0.0, 0.0));
 	enforce (ioRoot !is null);
 	ioRoot.draw ();
+	ALLEGRO_MOUSE_STATE mouse;
+	al_get_mouse_state (&mouse);
+	if (cursorRoot !is null)
+	{
+		ALLEGRO_BITMAP * prevBuffer = al_get_target_bitmap ();
+		ALLEGRO_BITMAP * curBuffer = al_create_sub_bitmap
+		    (prevBuffer, mouse.x - cursorRoot.w / 2,
+		    mouse.y - cursorRoot.h / 2, w, h);
+		al_set_target_bitmap (curBuffer);
+		cursorRoot.draw ();
+		al_set_target_bitmap (prevBuffer);
+		al_destroy_bitmap (curBuffer);
+	}
 	al_flip_display ();
 }
 
@@ -194,6 +208,11 @@ void mainLoop ()
 	puzzleEn = prepareText ("data/dickinson.txt");
 	menu = prepareMenu ();
 	ioRoot = menu;
+	cursorRoot = new Button (solveForm,
+	    0, 0, 140, 40, 5,
+	    buttonColor, al_map_rgb_f (0.5, 0.9, 0.5),
+	    buttonFont, "Next".toAllegroUstr (),
+	    (int posX, int posY) {ioRoot = solve (puzzle[1..$]);});
 	draw ();
 
 	isFinished = false;
