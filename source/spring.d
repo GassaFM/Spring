@@ -49,7 +49,6 @@ void init ()
 {
 	enforce (al_init ());
 	enforce (al_init_font_addon ());
-	enforce (al_init_image_addon ());
 	enforce (al_init_primitives_addon ());
 	enforce (al_init_ttf_addon ());
 	enforce (al_install_keyboard ());
@@ -296,7 +295,6 @@ void happyEnd ()
 	al_destroy_display (display);
 
 	al_shutdown_font_addon ();
-	al_shutdown_image_addon ();
 	al_shutdown_primitives_addon ();
 	al_shutdown_ttf_addon ();
 
